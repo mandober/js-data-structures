@@ -1,4 +1,4 @@
-# Data structures in JS
+# Data structures
 
 - Linked List
 - Stack
