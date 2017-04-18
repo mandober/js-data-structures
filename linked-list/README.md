@@ -1,35 +1,29 @@
 # Data structures: Linked List
 
-[Singly linked list](https://www.wikiwand.com/en/Linked_list) is a linear collection of data elements, called nodes, where each node is composed of data (payload) and a reference (a link) to the next node in the sequence. This structure allows for efficient insertion or removal of elements from any position in the sequence during iteration. 
+[Linked list](https://www.wikiwand.com/en/Linked_list), or more precisely singly-linked list is a linear collection of data elements, called nodes, where each node is composed of data (payload) and a reference (link) to the next node in the sequence.
 
-The first node is referred as the `head` and it gives access to the whole list (it acts as the handler for the list); the `tail` refers to either the rest of nodes, or only to the final node. Usually, the final node points to `null`.
+The first node, referred as "head", provides access to the whole list; the "tail" refers to either the rest of nodes, or only to the final node. The final node in the list points to `null`.
 
-Linked list is found in JavaScript: prototype chain is a form of linked list, where an object (node) has properties (data) and the `__proto__` (next) link that points to the next object. The final node (Object.prototype) links to null.
+> Linked list is found in JavaScript: prototype chain is a form of linked list, where an object (node) has properties (data) and the `__proto__` (next) property that points (links) to the next object. The final node in the list, `Object.prototype`, points to null.
 
-
-**Nomenclature of linked lists**    
-- Singly linked list
-- Doubly linked list
-- Multiply linked list
-- Circular Linked list
-     
-     
 **Time complexity**     
-- Indexing: O(n)
-- Insert/delete at beginning: O(1)
+- Indexing: `O(n)`
+- Insert/delete at beginning: `O(1)`
 - Insert/delete at end:   
-  O(1) when last element is known    
-  O(n) when last element is unknown    
-- Insert/delete in middle: search time + O(1)
+  - `O(1)` when last element is known    
+  - `O(n)` when last element is unknown   
+- Insert/delete in middle: `search time + O(1)`
+- Wasted space: O(n) (average)
 
-* Wasted space: O(n) (average)
+
+## Implementing singly-linked list in JS
+
+Constructor function `LinkedList` will construct first node; construction of other nodes will be handled by a helper function. This way, not only initial, but and all other nodes will be prototype linked to `LinkedList.prototype`.
 
 
-## Implementing Linked-list in JavaScript
+![Linked list diagram 1][ll1]     
+Diagram 1: thick red lines are [[Prototype]] links.
 
-First, there will be a constructor function `LinkedList` that will on construct first node; construction of other nodes will be handled by another, helper, function. This way, not only initial, but and all other nodes will be prototype linked to `LinkedList.prototype` where methods for linked-list exist. 
-
-![Linked list diagram 1][ll1]
 
 ```js
 function LinkedList () {
@@ -45,9 +39,13 @@ function newNode(value) {
 }
 ```
 
-This seems unnecessary because other nodes don't have any business accessing the methods on the prototype object, so it might be better to remove other nodes from the prototype chain upon their construction.
+Having all nodes to [[Prototype]] link to `LinkedList.prototype` feels unnecessary because tail nodes don't have any business accessing the methods on the prototype object, so it seems reasonable to remove tailing nodes from the prototype chain during their creation.
 
-![Linked list diagram 2][ll2]
+
+![Linked list diagram 2][ll2]    
+Diagram 1: All nodes, except the first that represents the list itself, are removed from the [[Prototype]] chain.
+
+
 
 ```js
 var LinkedList = function () {
@@ -80,9 +78,7 @@ LinkedList.prototype.append = function (value) {
     findNode(this);
 }
 ```
-It doesn't matter whether the `newNode` function is called with or without the `new` keyword as it will always returned the explicitly specified object. Same goes for `LinkedList` function.
-
-
+Also now it doesn't matter whether the `LinkedList` or `newNode` function is called with or without the `new` keyword as the explicitly specified object will be returned.
 
 
 
@@ -97,9 +93,10 @@ ll.append(12);
 ll.append(15);
 ll.append(18);
 ```
+
 ![Linked list initial check][ll3]
 
-Now before going further, there is a question of sentinel nodes. Linked list ends in terminating sentinel node i.e. last node points to null, but whether there should also be an initial, "head", sentinel node that points to the first node of the list? Then, an empty liked list would, in fact, consist of this head node pointing to null. So, property `head` would be used to access the first node, but from then on `next` property would provide access to other nodes. (off to decide what is gained by this approach...to be continued)
+Looks ok. Before going further, there is a question of "sentinel" nodes. Linked list ends in terminating sentinel node i.e. `null`, but whether there should also be an initial, "head", sentinel node that points to the first node of the list? Then, an empty liked list would, in fact, consist of head node pointing to `null`; but when node is inserted `head` property would point to the first node, although from then on, node's `next` property would provide access to sequential nodes...(off to decide what is gained by this approach...I'll be back ;)
 
 
 
