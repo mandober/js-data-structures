@@ -5,7 +5,9 @@
  * @version 0.0.170417
  * @author Ivan Ilić <ivanilic1975@gmail.com>
  * @see https://github.com/mandober/js-data-structures
+ * @summary This implementation comes with selectable storage type (object, array, map or set)
  */
+
 
 
 /**
@@ -16,7 +18,7 @@
  */
 var Stack = function (storageType) {
     'use strict';
-    // Cater for the case when constructor is called without the `new` keyword
+    // cater for the case when constructor is called without the `new` keyword
     if (this === undefined) return new Stack();
     this.count = 0;
     // type of storage
@@ -92,7 +94,7 @@ Stack.prototype.pop = function () {
         this.storage.delete(--this.count);
     }
 
-    // set (get & delete by value):
+    // set (get with iterator, delete by value):
     if (this.storeType === 3) {
         var set = this.storage;
         var it = set.keys();
@@ -127,7 +129,7 @@ Stack.prototype.peek = function () {
         return this.storage.get(this.count - 1);
     }
 
-    // set (get  by value):
+    // set (get with iterator):
     if (this.storeType === 3) {
         var set = this.storage;
         var it = set.keys();
@@ -149,9 +151,7 @@ Stack.prototype.swap = function () {
     if (this.count < 2) return false;
     // pop last and second to last element
     let last = this.pop();
-    //let last = Stack.prototype.pop.call(this);
     let secondToLast = this.pop();
-    //let secondToLast = Stack.prototype.pop.call(this);
     // push back last, then second to last element
     this.push(last);
     this.push(secondToLast);
@@ -168,7 +168,6 @@ Stack.prototype.swap = function () {
 Stack.prototype.empty = function () {
     // reset count
     this.count = 0;
-
     // initialize new storage
     switch (this.storeType) {
         case 0:
@@ -186,7 +185,6 @@ Stack.prototype.empty = function () {
         default:
             this.storage = {};
     }
-
     // return the stack
     return this;
 }

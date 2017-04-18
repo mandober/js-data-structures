@@ -1,6 +1,6 @@
-# Data structures: Linked List
+# Linked List
 
-[Linked list](https://www.wikiwand.com/en/Linked_list), or more precisely singly-linked list is a linear collection of data elements, called nodes, where each node is composed of data (payload) and a reference (link) to the next node in the sequence.
+[Linked list](https://en.wikipedia.org/wiki/Linked_list "wikipedia"), or more precisely singly-linked list is a linear collection of data elements, called nodes, where each node is composed of data (payload) and a reference (link) to the next node in the sequence.
 
 The first node, referred as "head", provides access to the whole list; the "tail" refers to either the rest of nodes, or only to the final node. The final node in the list points to `null`.
 
