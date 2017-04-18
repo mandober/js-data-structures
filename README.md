@@ -1,31 +1,13 @@
 # Data structures in JS
 
 ### Finished implementations (links within this repo):
-- [Linked list](https://github.com/mandober/js-data-structures/tree/master/linked-list)
-- [Stack](https://github.com/mandober/js-data-structures/tree/master/stack)
-- Queue
-- Binary Search Tree
+- [x] [Stack](https://github.com/mandober/js-data-structures/tree/master/stack)
+- [x] [Linked list](https://github.com/mandober/js-data-structures/tree/master/linked-list)
+- [ ] Doubly-linked list
+- [ ] Queue
+- [ ] Binary Search Tree
+- [ ] Graph
 
-
-
-### Internal JS data structures:
-- Object
-- Array
-- Set
-- Map
-- Weak map
-- Weak set
-
-
-# Common data structures:
-- Stack
-- Queue
-- Priority queue
-- List
-- Linked list
-- Doubly-linked list
-- Binary search tree
-- Graph
 
 
 <p>&nbsp;</p>
