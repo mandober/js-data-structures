@@ -29,6 +29,8 @@ Linked list is found in JavaScript: prototype chain is a form of linked list, wh
 
 First, there will be a constructor function `LinkedList` that will on construct first node; construction of other nodes will be handled by another, helper, function. This way, not only initial, but and all other nodes will be prototype linked to `LinkedList.prototype` where methods for linked-list exist. 
 
+![Linked list diagram 1][ll1]
+
 ```js
 function LinkedList () {
     node.data = undefined;
@@ -43,9 +45,9 @@ function newNode(value) {
 }
 ```
 
-![Linked list diagram 1][ll1]
-
 This seems unnecessary because other nodes don't have any business accessing the methods on the prototype object, so it might be better to remove other nodes from the prototype chain upon their construction.
+
+![Linked list diagram 2][ll2]
 
 ```js
 var LinkedList = function () {
@@ -78,11 +80,10 @@ LinkedList.prototype.append = function (value) {
     findNode(this);
 }
 ```
-
-![Linked list diagram 2][ll2]
-
-
 It doesn't matter whether the `newNode` function is called with or without the `new` keyword as it will always returned the explicitly specified object. Same goes for `LinkedList` function.
+
+
+
 
 
 **Usage**   
@@ -98,13 +99,12 @@ ll.append(18);
 ```
 ![Linked list initial check][ll3]
 
-Now before going further, there is a question of sentinel nodes. Linked list ends in terminating sentinel node i.e. last node points to null, but whether there should also be an initial, "head", sentinel node that points to the first node of the list? Then, an empty liked list would, in fact, consist of this head node pointing to null. So, property `head` would be used to access the first node, but then on `next` property would provide access to other nodes... (off to decide what is gained by this approach...to be continued)
+Now before going further, there is a question of sentinel nodes. Linked list ends in terminating sentinel node i.e. last node points to null, but whether there should also be an initial, "head", sentinel node that points to the first node of the list? Then, an empty liked list would, in fact, consist of this head node pointing to null. So, property `head` would be used to access the first node, but from then on `next` property would provide access to other nodes. (off to decide what is gained by this approach...to be continued)
 
 
 
 
 
-### References:
 [ll1]: https://github.com/mandober/js-data-structures/blob/master/linked-list/linked-list-1.png?raw=true
 [ll2]: https://github.com/mandober/js-data-structures/blob/master/linked-list/linked-list-2.png?raw=true
 [ll3]: https://github.com/mandober/js-data-structures/blob/master/linked-list/linked-list-3.jpg?raw=true
