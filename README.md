@@ -4,8 +4,8 @@
 - [x] [Stack](https://github.com/mandober/js-data-structures/tree/master/stack)
 - [x] [Linked list](https://github.com/mandober/js-data-structures/tree/master/linked-list)
 - [ ] Doubly-linked list
-- [ ] Queue
-- [ ] Binary Search Tree
+- [ ] [Queue](queue/README.md)
+- [ ] [Binary Search Tree](binary-search-tree/README.md)
 - [ ] Graph
 
 
