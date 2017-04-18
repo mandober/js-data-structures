@@ -41,13 +41,13 @@ Some classes of commonly encountered time complexity:
 -  **Constant Time**: `O(1)`   
   It only takes a single step for the algorithm to accomplish the task.
 
-- ** Logarithmic Time**: `O(log n) `   
+- **Logarithmic Time**: `O(log n) `   
   The number of steps it takes to accomplish a task is decreased by some factor with each step.
 
 -  **Linear Time**: `O(n)`   
   The number of steps required is directly related (1 to 1).
 
-- ** Quadratic Time**: `O(n²) `   
+- **Quadratic Time**: `O(n²) `   
   The number of steps it takes to accomplish a task is n squared.
 
 - **Exponential**: `O(C^n)`   
