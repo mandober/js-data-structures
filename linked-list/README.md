@@ -2,7 +2,7 @@
 
 [Singly linked list](https://www.wikiwand.com/en/Linked_list) is a linear collection of data elements, called nodes, where each node is composed of data (payload) and a reference (a link) to the next node in the sequence. This structure allows for efficient insertion or removal of elements from any position in the sequence during iteration. 
 
-The first node is refered as the `head` and it gives access to the whole list (it acts as the handler for the list); the `tail` referes to either the rest of nodes, or only to the final node. Usually, the final node points to `null`.
+The first node is referred as the `head` and it gives access to the whole list (it acts as the handler for the list); the `tail` refers to either the rest of nodes, or only to the final node. Usually, the final node points to `null`.
 
 Linked list is found in JavaScript: prototype chain is a form of linked list, where an object (node) has properties (data) and the `__proto__` (next) link that points to the next object. The final node (Object.prototype) links to null.
 
@@ -45,7 +45,7 @@ function newNode(value) {
 
 ![Linked list diagram 1][ll1]
 
-This seems unnessesary because other nodes don't have any business accessing the methods on the prototype object, so it might be better to remove other nodes from the prototype chain upon their construction.
+This seems unnecessary because other nodes don't have any business accessing the methods on the prototype object, so it might be better to remove other nodes from the prototype chain upon their construction.
 
 ```js
 var LinkedList = function () {
@@ -82,11 +82,11 @@ LinkedList.prototype.append = function (value) {
 ![Linked list diagram 2][ll2]
 
 
-It doesn't matter wheter the `newNode` function is called with or without the `new` keyword as it will always returned the explicitly specified object. Same goes for `LinkedList` function.
+It doesn't matter whether the `newNode` function is called with or without the `new` keyword as it will always returned the explicitly specified object. Same goes for `LinkedList` function.
 
 
 **Usage**   
-With `append` method implemented, the list is ready for iniatal check.
+With `append` method implemented, the list is ready for initial check.
 
 ```js
 var ll = LinkedList();
@@ -98,7 +98,7 @@ ll.append(18);
 ```
 ![Linked list initial check][ll3]
 
-Now before going further, there is a question of sentinel nodes. Linked list ends in terminating sentinel node i.e. last node points to null, but wheter there should also be an initial, "head", sentinel node that points to the first node of the list? Then, an empty liked list would, in fact, consist of this head node pointing to null. So, property `head` would be used to access the first node, but then on `next` property would provide access to other nodes... (off to decide what is gained by this approach...to be continued)
+Now before going further, there is a question of sentinel nodes. Linked list ends in terminating sentinel node i.e. last node points to null, but whether there should also be an initial, "head", sentinel node that points to the first node of the list? Then, an empty liked list would, in fact, consist of this head node pointing to null. So, property `head` would be used to access the first node, but then on `next` property would provide access to other nodes... (off to decide what is gained by this approach...to be continued)
 
 
 
