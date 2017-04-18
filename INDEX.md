@@ -19,5 +19,5 @@
 
 
 # Data structures
-[Data structures](https://www.wikiwand.com/en/Data_structure)
-[List of data structures](https://www.wikiwand.com/en/List_of_data_structures)
+* [Data structures](https://en.wikipedia.org/wiki/Data_structure "wikipedia:data structures")  
+* [List of data structures](https://en.wikipedia.org/wiki/List_of_data_structures "wikipedia:List of data structures")

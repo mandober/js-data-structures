@@ -1,13 +1,14 @@
 # Stack
 
-[STack](https://www.wikiwand.com/en/Stack_(abstract_data_type))
+[Stack](https://en.wikipedia.org/wiki/Stack_(abstract_data_type) "wikipedia") holds a collection of elements, with two principal operations: `push`, which adds an element to the collection, and `pop`, which removes the most recently added element. The way in which elements are added and removed gives the structure its alternative name, `LIFO` (Last In, First Out).
 
-- LIFO (last in first out)
-- time complexity: worst-case time complexity is constant: O(1)
-- methods time complexity:
-  - push: Constant — O(1)
-  - pop: Constant — O(1)
-  - peek: Constant — O(1)
-  - empty: Constant — O(1)
-  - size: Constant — O(1)
-  - swap: Constant — O(1)
+
+## Time Complexity
+
+All methods (push, pop, peek) have the same time complexity:
+* worst-case time complexity is constant:  `O(1)`
+
+
+## Implementation in JS
+
+This implementation is through `Stack` constructor function. I couldn't decide on the underlying JS type to hold the stack data, so I've implemented a choice between Object, Array, Map and Set. Still trying to find out which is most suitable for the task.
