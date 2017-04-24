@@ -10,10 +10,15 @@ if (typeof require !== "undefined") {
 
 // USAGE
 var ll = new LinkedList();
-ll.append(6);
-ll.append(9);
-ll.append(12);
-ll.append(15);
-ll.append(18);
+
+ll.append(55);
+ll.prepend(44);
+ll.append(66);
+ll.prepend(33);
+ll.append(77);
+ll.prepend(22);
+ll.append(88);
+ll.append(99);
+ll.prepend(11);
 
 console.log('ll:', ll);
