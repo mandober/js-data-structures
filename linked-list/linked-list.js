@@ -1,15 +1,15 @@
 /**
  * Data structures: LINKED LIST
- * @version 0.0.170419
+ * @version 0.0.170425
  * @description Linked list implementation in JS.
  * Methods: append(), prepend(), insert(), delete()
- * Linked List
- * - head: points to first node of list; null for empty list
+ * Structure: Singly-linked List
+ * List's properties:
+ * - head: points to first node of list; points to null if list is empty
  * - count: keeps count of nodes
- * Node
- * - data: payload stored in the node
- * - next: reference to the next node, null for last node
- *
+ * Node's properties:
+ * - data: node's payload
+ * - next: reference to the next node, last node points to null
  */
 'use strict';
 
@@ -32,7 +32,7 @@ let LinkedList = function () {
  *   - find the last node in the list (whose `.next` points to null)
  *   - point last node's `.next` to the newly created node
  */
-LinkedList.prototype.insert = function (value) {
+LinkedList.prototype.append = function (value) {
     function findLastNode(obj) {
         return (obj.next === null) ? obj : findLastNode(obj.next);
     }
@@ -63,14 +63,14 @@ if (typeof module !== "undefined") {
 
 // USAGE
 var ll = new LinkedList();
-ll.insert(11);
-ll.insert(22);
-ll.insert(33);
-ll.insert(44);
-ll.insert(55);
-ll.insert(66);
-ll.insert(77);
-ll.insert(88);
-ll.insert(99);
+ll.append(11);
+ll.append(22);
+ll.append(33);
+ll.append(44);
+ll.append(55);
+ll.append(66);
+ll.append(77);
+ll.append(88);
+ll.append(99);
 
 console.log('ll:', ll);
