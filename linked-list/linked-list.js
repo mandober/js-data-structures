@@ -36,7 +36,6 @@ LinkedList.prototype.append = function (value) {
     function findLastNode(obj) {
         return (obj.next === null) ? obj : findLastNode(obj.next);
     }
-
     // if list is empty, newly created node is the first node (point list's `.head` at it)
     if (this.count === 0) {
         this.head = newNode(value);
@@ -55,28 +54,20 @@ LinkedList.prototype.append = function (value) {
 /**
  * prepend()
  * 1) if list is empty (only head exists), insert newly created node as the first node
- * 2) otherwise put newly created node as the first node:
- *   - point list's `.head` to the newly created node
+ * 2) otherwise point list's `.head` to the newly created node and point new node's .next to ex first node
+ * @param {*} value Node's payload
+ * @returns {linked-list} Linked list
  */
-
 LinkedList.prototype.prepend = function (value) {
-    function findLastNode(obj) {
-        return (obj.next === null) ? obj : findLastNode(obj.next);
-    }
-
-    // if list is empty, newly created node is the first node (point list's `.head` at it)
     if (this.count === 0) {
         this.head = newNode(value);
-        this.count++;
-        return true;
-        // otherwise
     } else {
         let firstNode = this.head;
         this.head = newNode(value);
         this.head.next = firstNode;
-        this.count++;
-        return true;
     }
+    this.count++;
+    return this;
 };
 
 
@@ -84,7 +75,6 @@ LinkedList.prototype.prepend = function (value) {
 if (typeof module !== "undefined") {
     module.exports = LinkedList;
 };
-
 
 
 // USAGE
@@ -98,5 +88,4 @@ ll.prepend(22);
 ll.append(88);
 ll.append(99);
 ll.prepend(11);
-
 console.log('ll:', ll);
