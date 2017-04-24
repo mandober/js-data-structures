@@ -1,49 +1,76 @@
+/**
+ * Data structures: LINKED LIST
+ * @version 0.0.170419
+ * @description Linked list implementation in JS.
+ * Methods: append(), prepend(), insert(), delete()
+ * Linked List
+ * - head: points to first node of list; null for empty list
+ * - count: keeps count of nodes
+ * Node
+ * - data: payload stored in the node
+ * - next: reference to the next node, null for last node
+ *
+ */
 'use strict';
 
-var LinkedList = function () {
-    'use strict';
-    var node = Object.create(LinkedList.prototype);
-    node.data = undefined;
+let newNode = function (value) {
+    let node = Object.create(null);
+    node.data = value;
     node.next = null;
-    node.count = 0;
-    node.head = true;
     return node;
-};
-
-LinkedList.prototype.append = function (value) {
-    'use strict';
-    // make new node, removed from the prototype chain
-    function newNode(value) {
-        var node = Object.create(null);
-        node.data = value;
-        node.next = null;
-        return node;
-    }
-
-    function findNode(obj) {
-        if (obj.head && obj.count === 1) {
-            obj.data = value;
-        } else if (obj.next === null) {
-            obj.next = newNode(value);
-        } else {
-            findNode(obj.next);
-        }
-    }
-
-    // increment size
-    this.count++;
-
-    // start recursion with the passed in instance of Linked List object
-    findNode(this);
 }
 
+let LinkedList = function () {
+    this.count = 0;
+    this.head = null;
+};
+
+/**
+ * Append node:
+ * 1) if list is empty (only head exists), insert newly created node as the first node
+ * 2) otherwise insert newly created node in the list:
+ *   - find the last node in the list (whose `.next` points to null)
+ *   - point last node's `.next` to the newly created node
+ */
+LinkedList.prototype.insert = function (value) {
+    function findLastNode(obj) {
+        return (obj.next === null) ? obj : findLastNode(obj.next);
+    }
+
+    // if list is empty, newly created node is the first node (point list's `.head` at it)
+    if (this.count === 0) {
+        this.head = newNode(value);
+        this.count++;
+        return true;
+        // otherwise, search for the last node (starting with first one)
+        // and then point its `.next` property to the newly created node
+    } else {
+        let lastNode = findLastNode(this.head);
+        lastNode.next = newNode(value);
+        this.count++;
+        return true;
+    }
+};
+
+
+
+// node export
+if (typeof module !== "undefined") {
+    module.exports = LinkedList;
+};
 
 
 
 // USAGE
-var ll = LinkedList();
-ll.append(6);
-ll.append(9);
-ll.append(12);
-ll.append(15);
-ll.append(18);
+var ll = new LinkedList();
+ll.insert(11);
+ll.insert(22);
+ll.insert(33);
+ll.insert(44);
+ll.insert(55);
+ll.insert(66);
+ll.insert(77);
+ll.insert(88);
+ll.insert(99);
+
+console.log('ll:', ll);

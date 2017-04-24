@@ -1,49 +1,19 @@
+/*  DESC: LINKED LIST
+ *  FILE: /linked-list/index.js
+ */
 'use strict';
-/*
-LINKED LIST
 
-Node
-- data: data being stored in the node
-- next: reference to the next node, null for last node
+// node import/export
+if (typeof require !== "undefined") {
+    var LinkedList = require('./linked-list');
+}
 
-List
-- head: points to first node of list; null for empty list
-*/
+// USAGE
+var ll = new LinkedList();
+ll.append(6);
+ll.append(9);
+ll.append(12);
+ll.append(15);
+ll.append(18);
 
-let Node = function () {
-    this.data = undefined;
-    this.next = null;
-};
-
-let LinkedList = function () {
-    //this.head = this;
-    this.data = undefined;
-    this.next = null;
-};
-
-LinkedList.prototype.insert = function (data) {
-    function traverse (node) {
-        if (node.next === null) {
-            node.data = data;
-            node.next = new Node();
-        } else {
-            traverse(node.next);
-        }
-    }
-    traverse(this);
-};
-
-
-
-// usage:
-let ll = new LinkedList();
-ll.insert(2);
-
-
-/*
-Traversal:
-node := list.firstNode
- while node not null
-     (do something with node.data)
-     node := node.next
-*/
+console.log('ll:', ll);

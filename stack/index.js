@@ -2,12 +2,19 @@
 
 // STACK: usage
 
+// node import/export
+if (typeof require !== "undefined") {
+    var Stack = require('./stack.js');
+}
+
+
 // new Stack with Object for storage: new Stack(0)
 var sobj = new Stack(0);
 console.log('sobj.push(1): ', sobj.push(1));
 console.log('sobj.push(2): ', sobj.push(2));
 console.log('sobj.push(3): ', sobj.push(3));
 console.log('new Stack with Object for storage: ', sobj);
+
 
 
 // new Stack with Array for storage: new Stack(1)

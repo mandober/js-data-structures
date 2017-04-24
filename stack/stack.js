@@ -1,34 +1,33 @@
 /**
- * DATA STRUCTURES: STACK
- *
- * @description Stack implementation in JS
+ * Data structures: STACK
  * @version 0.0.170418
- * @author Ivan Ilić <ivanilic1975@gmail.com>
- * @see https://github.com/mandober/js-data-structures
- * @summary This implementation comes with selectable storage type (object, array, map or set).
+ * @description Stack implementation in JS. Type of storage for the stack
+ * is user selectable: 0 (Object), 1 (Array), 2 (Map), 3 (Set). Default is 0.
+ * Pass 0-4 (inclusively) as first parameter to constructor call.
+ * Choosing `set` has the usual consequences - every element is unique.
+ * Methods: push(), pop(), peek(), swap(), empty(), isEmpty(), size()
  */
-
 
 
 /**
  * Construct new stack object.
  *
- * @constructor
- * @typedef {(object)} Stack
- * @property {number}  count         Stack elements counter.
- * @property {number}  storageType   Keeps track about the chosen underlining JS storage (see 'storage' property).
- * @property {object|array|map|set}  storage  Underlining JS storage used for storing stack elements.
- * @this Stack
- *
- * @param {number}   storageType  Type of underlying storage: 0=Object, 1=Array, 2=Map, 3=Set (defult: 0)
+ * @param {number}   storageType  Type of underlying storage:
+ *        0 (Object), 1 (Array), 2 (Map), 3 (Set), Default: 0
  * @returns {Stack}  Returns the stack object.
  */
 var Stack = function (storageType) {
     'use strict';
+
+    // object is default storage
     storageType = storageType || 0;
+
     // cater for the case when constructor is called without the `new` keyword
     if (this === undefined) return new Stack();
+
+    // elements counter
     this.count = 0;
+
     // type of storage
     switch (storageType) {
         case 0:
@@ -51,8 +50,9 @@ var Stack = function (storageType) {
             this.storage = {};
             this.storageType = 0;
     }
-}
 
+    // new object is implicitly returned
+}
 
 /**
  * push() - add value to the stack.
@@ -62,20 +62,26 @@ var Stack = function (storageType) {
  */
 Stack.prototype.push = function (value) {
     'use strict';
+
+    // check value
     if (!value) return false;
-    // object(0) and array(1):
+
+    // object(storageType=0) and array(storageType=1):
+    // set new value to current `count` index, then increment index
     if (this.storageType < 2) this.storage[this.count++] = value;
-    // map (2)
+
+    // map (storageType=2)
     if (this.storageType === 2) this.storage.set(this.count++, value);
-    // set (3):
+
+    // set (storageType=3):
     if (this.storageType === 3) {
         this.storage.add(value);
         this.count++;
     }
+
     // return stack object
     return this;
 }
-
 
 /**
  * pop() - remove and return (last) value off the stack.
@@ -148,7 +154,6 @@ Stack.prototype.peek = function () {
     }
 }
 
-
 /**
  * Swap   the two top most elements of the stack.
  *
@@ -166,7 +171,6 @@ Stack.prototype.swap = function () {
     // return the stack
     return this;
 }
-
 
 /**
  * empty() - empties the stack.
@@ -214,3 +218,10 @@ Stack.prototype.size = function () {
 Stack.prototype.isEmpty = function () {
     return this.count === 0;
 }
+
+
+// node export
+if (typeof module !== "undefined") {
+    module.exports = Stack;
+}
+
