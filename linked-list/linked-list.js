@@ -2,7 +2,7 @@
  * Data structures: LINKED LIST
  * @version 0.0.170425
  * @description Linked list implementation in JS.
- * Methods: append(), prepend(), insert(), delete()
+ * Methods: append(), prepend(), insert(), traverse(), has(), delete()
  * Structure: Singly-linked List
  * List's properties:
  * - head: points to first node of list; points to null if list is empty
@@ -19,7 +19,7 @@
  * @property  {number}  count  Keeps count of nodes.
  * @property  {Object}  head   Points to the first node of the list.
  */
-let LinkedList = function () {
+let SinglyLinkedList = function () {
     this.count = 0;
     this.head = null;
 };
@@ -37,7 +37,6 @@ let Node = function (value) {
     return node;
 }
 
-
 /**
  * append()
  * 1) if list is empty (only head exists), insert newly created node as the first node
@@ -48,25 +47,21 @@ let Node = function (value) {
  * @returns  {LinkedList}  Linked list
  *
  */
-LinkedList.prototype.append = function (value) {
+SinglyLinkedList.prototype.append = function (value) {
     function findLastNode(obj) {
         return (obj.next === null) ? obj : findLastNode(obj.next);
     }
-    // if list is empty, newly created node is the first node (point list's `.head` at it)
     if (this.count === 0) {
+        // if list is empty, newly created node is the first node (point list's `.head` at it)
         this.head = Node(value);
-        this.count++;
-        return true;
-        // otherwise, search for the last node (starting with first one)
-        // and then point its `.next` property to the newly created node
     } else {
+        // otherwise, find last node, point its `.next` property to the newly created node
         let lastNode = findLastNode(this.head);
         lastNode.next = Node(value);
-        this.count++;
-        return true;
     }
+    this.count++;
+    return this;
 };
-
 
 /**
  * prepend()
@@ -75,7 +70,7 @@ LinkedList.prototype.append = function (value) {
  * @param    {*}  value    Node's payload
  * @returns  {LinkedList}  Linked list
  */
-LinkedList.prototype.prepend = function (value) {
+SinglyLinkedList.prototype.prepend = function (value) {
     if (this.count === 0) {
         this.head = Node(value);
     } else {
@@ -87,7 +82,6 @@ LinkedList.prototype.prepend = function (value) {
     return this;
 };
 
-
 /**
  * insert()
  * Insert new node after the node that contains given data (`payload`)
@@ -95,7 +89,7 @@ LinkedList.prototype.prepend = function (value) {
  * @param    {*}  value     New node's value.
  * @returns  {LinkedList}   Linked list
  */
-LinkedList.prototype.insert = function (payload, value) {
+SinglyLinkedList.prototype.insert = function (payload, value) {
     function findNode(obj) {
         while (obj !== null) {
             if (obj.data === payload) return obj;
@@ -104,28 +98,36 @@ LinkedList.prototype.insert = function (payload, value) {
         return null;
     }
 
-    // if list is empty, return false
-    if (this.count === 0) return false;
+    // 1) list is empty, but insert new node as the first node anyway
+    if (this.count === 0) {
+        this.head = Node(value);
+        this.count++;
+        return this;
+    }
 
-    // search for the node containg the value
+    // search for the node containg the payload
     let posNode = findNode(this.head);
-    if (posNode === null) return new Error("[SLL:insert] No node contains such value");
 
-    let nextNode = posNode.next;
+    // 2) no node containg the payload found, but append new node anyway
+    if (posNode === null) {
+        this.append(value);
+        this.count++;
+        return this;
+    }
+
+    // 3) node found, insert new node after it
     let newNode = Node(value);
+    newNode.next = posNode.next;
     posNode.next = newNode;
-    newNode.next = nextNode;
-
     this.count++;
     return this;
 };
-
 
 /**
  * traverse()  Traverses the singly linked list.
  * @returns  {array<*>}  An array of node's payloads.
  */
-LinkedList.prototype.traverse = function () {
+SinglyLinkedList.prototype.traverse = function () {
     var current = this.head,
         arr = [];
     while (current !== null) {
@@ -135,13 +137,12 @@ LinkedList.prototype.traverse = function () {
     return arr;
 };
 
-
 /**
  * has() - Check if linked list contains specific value.
  * @param {*} value  Value to search linked list for.
  * @returns {boolean} Returns true if value found, false otherwise.
  */
-LinkedList.prototype.has = function (value) {
+SinglyLinkedList.prototype.has = function (value) {
     var current = this.head;
     while (current !== null) {
         if (current.data === value) return true;
@@ -152,23 +153,34 @@ LinkedList.prototype.has = function (value) {
 
 
 
+
 // node export
-if (typeof module !== "undefined") {
-    module.exports = LinkedList;
-};
+if (typeof module !== "undefined") module.exports = SinglyLinkedList;
+
 
 
 // USAGE
-var ll = new LinkedList();
-ll.append(55);
-ll.prepend(44);
-// ll.append(66);
-ll.prepend(33);
-ll.append(77);
-ll.prepend(22);
-// ll.append(88);
-ll.append(99);
-ll.prepend(11);
+let sll = new SinglyLinkedList();
+sll.append(55);
+sll.prepend(44);
+sll.prepend(33);
+sll.has(33);
+sll.append(77);
+sll.prepend(22);
+sll.append(99);
+sll.prepend(11);
+sll.insert(55, 66);
+sll.insert(77, 88);
 
-
-// console.log('ll:', ll);
+let sll2 = new SinglyLinkedList();
+console.log('sll2.append(55): ', sll2.append(55));
+console.log('sll2.prepend(44): ', sll2.prepend(44));
+console.log('sll2.prepend(33): ', sll2.prepend(33));
+console.log('sll2.has(33): ', sll2.has(33));
+console.log('sll2.append(77): ', sll2.append(77));
+console.log('sll2.prepend(22): ', sll2.prepend(22));
+console.log('sll2.append(99): ', sll2.append(99));
+console.log('sll2.prepend(11): ', sll2.prepend(11));
+console.log('sll2.insert(55, 66): ', sll2.insert(55, 66));
+console.log('sll2.insert(77, 88): ', sll2.insert(77, 88));
+console.log('sll2.traverse(): ', sll2.traverse());
