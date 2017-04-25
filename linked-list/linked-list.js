@@ -123,6 +123,52 @@ SinglyLinkedList.prototype.insert = function (payload, value) {
     return this;
 };
 
+SinglyLinkedList.prototype.delete = function (payload) {
+    function findNodeBefore(obj) {
+        while (obj.next !== null) {
+            if (obj.next.data === payload) return obj;
+            obj = obj.next;
+        }
+        return null;
+    }
+
+    // 1) list is empty, return false
+    if (this.count === 0) return false;
+
+    // 2) list has 1 element and it is matched for deletion
+    if (this.count === 1) {
+        if (this.head.data === payload) {
+            this.head = null;
+            this.count = 0;
+            return true;
+        }
+        return false;
+    }
+
+    // 3) list has more than 1 element and first element is matched for deletion
+    if (this.head.data === payload) {
+        this.head = this.head.next;
+        --this.count;
+        return true;
+    }
+
+    // 4) list has more than 1 element and non-first element is matched for deletion
+    // posNode is the node before the node matched for deletion
+    let posNode = findNodeBefore(this.head);
+    if (posNode === null) return false;
+    // if node matched for deletion is the last one
+    if (posNode.next.next === null) {
+        posNode.next = null;
+    } else {
+       // if node matched for deletion is not the last one
+        let afterNode = posNode.next.next;
+        posNode.next = afterNode;
+    }
+    --this.count;
+    return true;
+};
+
+
 /**
  * traverse()  Traverses the singly linked list.
  * @returns  {array<*>}  An array of node's payloads.
@@ -163,14 +209,14 @@ if (typeof module !== "undefined") module.exports = SinglyLinkedList;
 let sll = new SinglyLinkedList();
 sll.append(55);
 sll.prepend(44);
-sll.prepend(33);
-sll.has(33);
-sll.append(77);
-sll.prepend(22);
-sll.append(99);
-sll.prepend(11);
-sll.insert(55, 66);
-sll.insert(77, 88);
+// sll.prepend(33);
+// sll.has(33);
+// sll.append(77);
+// sll.prepend(22);
+// sll.append(99);
+// sll.prepend(11);
+// sll.insert(55, 66);
+// sll.insert(77, 88);
 
 let sll2 = new SinglyLinkedList();
 console.log('sll2.append(55): ', sll2.append(55));
