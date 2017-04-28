@@ -1,15 +1,26 @@
 /**
- * Data structures: LINKED LIST
- * @version 0.0.170425
- * @description Linked list implementation in JS.
- * Methods: append(), prepend(), insert(), traverse(), has(), delete()
- * Structure: Singly-linked List
+ * Data structure: SINGLY LINKED LIST (SLL)
+ *
+ * @version 0.0.170428
+ * @description Singly Linked List implemented in JS.
+ *
+ * Singly-linked list is a collection of nodes where each node carries its payload (data)
+ * and holds a reference to the following node through its `next` property. Initial node
+ * in the list is a sentinel node - it doesn't hold any data, but acts as a handler for
+ * the whole list. It keeps track of other nodes, particularly of the first or "head"
+ * node, to which it points with its `head` property, and of the last node referenced
+ * with its `tail` property. The last node in the linked list points to `null`.
+ *
+ * Methods: append, prepend, insert, traverse, has, delete
+ *
  * List's properties:
- * - head: points to first node of list; points to null if list is empty
- * - count: keeps count of nodes
+ * - head: points to the first node
+ * - tail: points to the last node
+ * - count: tracks nodes count
+ *
  * Node's properties:
  * - data: node's payload
- * - next: reference to the next node, last node points to null
+ * - next: references the following node, the last node points to null
  */
 'use strict';
 
@@ -18,45 +29,43 @@
  * @typedef   {Object}  LinkedList
  * @property  {number}  count  Keeps count of nodes.
  * @property  {Object}  head   Points to the first node of the list.
+ * @property  {Object}  tail   Points to the last node of the list.
  */
-let SinglyLinkedList = function () {
+var SinglyLinkedList = function () {
     this.count = 0;
     this.head = null;
+    this.tail = null;
 };
 
 /**
  * Node
- * @typedef   {Object}  Node
- * @property  {*}       data  Node's payload.
- * @property  {Object}  next  Points to the next node of the list.
+ * @typedef   {Object}   Node.
+ * @property  {*}  data  Node's payload.
+ * @property  {Object}   next  Points to the next node of the list.
  */
-let Node = function (value) {
-    let node = Object.create(null);
+var Node = function (value) {
+    // creates an object removed from the prototype chain
+    var node = Object.create(null);
     node.data = value;
     node.next = null;
     return node;
 }
 
 /**
- * append()
- * 1) if list is empty (only head exists), insert newly created node as the first node
- * 2) otherwise insert newly created node in the list:
- *   - find the last node in the list (whose `.next` points to null)
- *   - point last node's `.next` to the newly created node
- * @param    {*}  value    Node's payload
- * @returns  {LinkedList}  Linked list
- *
+ * append - Inserts new node at the end of the linked list.
+ * @param    {*}  value    Node's payload.
+ * @returns  {LinkedList}  Linked list.
  */
 SinglyLinkedList.prototype.append = function (value) {
-    function findLastNode(obj) {
-        return (obj.next === null) ? obj : findLastNode(obj.next);
-    }
-    if (this.count === 0) {
-        // if list is empty, newly created node is the first node (point list's `.head` at it)
+    // if list is empty, newly created node is the first node
+    if (this.head === null) {
         this.head = Node(value);
+    // otherwise, find last node, point its `.next` property to the newly created node
     } else {
-        // otherwise, find last node, point its `.next` property to the newly created node
-        let lastNode = findLastNode(this.head);
+        //let lastNode = findLastNode(this.head);
+        let lastNode = function findLastNode(obj) {
+            return (obj.next === null) ? obj : findLastNode(obj.next);
+        }(this.head);
         lastNode.next = Node(value);
     }
     this.count++;
@@ -152,17 +161,17 @@ SinglyLinkedList.prototype.delete = function (payload) {
         return true;
     }
 
-    // 4) list has more than 1 element and non-first element is matched for deletion
+    // 4) list has more than 1 element and some element is matched for deletion, but not the first one
     // posNode is the node before the node matched for deletion
     let posNode = findNodeBefore(this.head);
+    // no matching node
     if (posNode === null) return false;
     // if node matched for deletion is the last one
     if (posNode.next.next === null) {
         posNode.next = null;
     } else {
        // if node matched for deletion is not the last one
-        let afterNode = posNode.next.next;
-        posNode.next = afterNode;
+        posNode.next = posNode.next.next;
     }
     --this.count;
     return true;
@@ -171,13 +180,14 @@ SinglyLinkedList.prototype.delete = function (payload) {
 
 /**
  * traverse()  Traverses the singly linked list.
+ * @param {function}  callback  Function to invoke on every traversal
  * @returns  {array<*>}  An array of node's payloads.
  */
-SinglyLinkedList.prototype.traverse = function () {
+SinglyLinkedList.prototype.traverse = function (callback) {
     var current = this.head,
         arr = [];
     while (current !== null) {
-        arr.push(current.data);
+        callback ? arr.push(callback(current.data)) : arr.push(current.data);
         current = current.next;
     }
     return arr;
@@ -206,19 +216,23 @@ if (typeof module !== "undefined") module.exports = SinglyLinkedList;
 
 
 // USAGE
-let sll = new SinglyLinkedList();
+var sll = new SinglyLinkedList();
 sll.append(55);
 sll.prepend(44);
-// sll.prepend(33);
+sll.prepend(33);
 // sll.has(33);
 // sll.append(77);
-// sll.prepend(22);
+sll.prepend(22);
 // sll.append(99);
 // sll.prepend(11);
 // sll.insert(55, 66);
-// sll.insert(77, 88);
+sll.insert(77, 88);
+sll.traverse();
+sll.traverse(x => x + 2);
 
-let sll2 = new SinglyLinkedList();
+
+
+var sll2 = new SinglyLinkedList();
 console.log('sll2.append(55): ', sll2.append(55));
 console.log('sll2.prepend(44): ', sll2.prepend(44));
 console.log('sll2.prepend(33): ', sll2.prepend(33));
