@@ -1,72 +1,77 @@
 /**
- * Data structure: SINGLY LINKED LIST (SLL)
+ * Data structure: DOUBLY LINKED LIST (DLL)
  *
- * @version 0.0.170428
- * @description Singly Linked List implemented in JS.
+ * @version 0.0.12.170430
+ * @description Doubly Linked List implemented in JS.
  *
- * Singly-linked list is a collection of nodes where each node carries its payload (data)
- * and holds a reference to the following node through its `next` property. Initial node
- * in the list is a sentinel node - it doesn't hold any data, but acts as a handler for
- * the whole list. It keeps track of other nodes, particularly of the first or "head"
- * node, to which it points with its `head` property, and of the last node referenced
- * with its `tail` property. The last node in the linked list points to `null`.
+ * Doubly-linked list is a collection of nodes where each node carries its payload (data)
+ * and holds a reference to the following and previous node through its `next` and `prev`
+ * properties, respectively.
+ *
+ * Initial node in the list is a sentinel node - it doesn't hold any data, but acts
+ * as a handler for the whole list. It keeps track of other nodes, particularly of
+ * the first or "head" node, to which it points with its `head` property. If needed,
+ * it can also keep a reference to the last node with its `tail` property. The last
+ * node in the linked list points to `null`.
  *
  * Methods: append, prepend, insert, traverse, has, delete
  *
  * List's properties:
  * - head: points to the first node
  * - tail: points to the last node
- * - count: tracks nodes count
+ * - count: tracks count of nodes
  *
  * Node's properties:
  * - data: node's payload
- * - next: references the following node, the last node points to null
+ * - next: references the following node
+ * - prev: references the previous node
  */
 'use strict';
 
 /**
- * LinkedList
- * @typedef   {Object}  LinkedList
+ * DoublyLinkedList
+ * @typedef   {Object}  DoublyLinkedList
  * @property  {number}  count  Keeps count of nodes.
  * @property  {Object}  head   Points to the first node of the list.
  * @property  {Object}  tail   Points to the last node of the list.
  */
-var SinglyLinkedList = function () {
+var DoublyLinkedList = function () {
     this.count = 0;
     this.head = null;
-    this.tail = null;
 };
 
 /**
  * Node
  * @typedef   {Object}   Node.
  * @property  {*}  data  Node's payload.
- * @property  {Object}   next  Points to the next node of the list.
+ * @property  {Object}   next  Points to the following node of the list.
+ * @property  {Object}   prev  Points to the previous node of the list.
  */
 var Node = function (value) {
     // creates an object removed from the prototype chain
     var node = Object.create(null);
     node.data = value;
     node.next = null;
+    node.prev = null;
     return node;
 }
 
 /**
- * append - Inserts new node at the end of the linked list.
+ * append - Inserts new node at the end of the dll.
  * @param    {*}  value    Node's payload.
- * @returns  {LinkedList}  Linked list.
+ * @returns  {DoublyLinkedList}  Doubly-linked list.
  */
-SinglyLinkedList.prototype.append = function (value) {
+DoublyLinkedList.prototype.append = function (value) {
     // if list is empty, newly created node is the first node
     if (this.head === null) {
         this.head = Node(value);
-    // otherwise, find last node, point its `.next` property to the newly created node
+    // otherwise, find last node
     } else {
-        //let lastNode = findLastNode(this.head);
         let lastNode = function findLastNode(obj) {
             return (obj.next === null) ? obj : findLastNode(obj.next);
         }(this.head);
         lastNode.next = Node(value);
+        lastNode.next.prev = lastNode;
     }
     this.count++;
     return this;
@@ -79,8 +84,8 @@ SinglyLinkedList.prototype.append = function (value) {
  * @param    {*}  value    Node's payload
  * @returns  {LinkedList}  Linked list
  */
-SinglyLinkedList.prototype.prepend = function (value) {
-    if (this.count === 0) {
+DoublyLinkedList.prototype.prepend = function (value) {
+    if (this.head === null) {    // if list is empty
         this.head = Node(value);
     } else {
         let firstNode = this.head;
@@ -98,7 +103,7 @@ SinglyLinkedList.prototype.prepend = function (value) {
  * @param    {*}  value     New node's value.
  * @returns  {LinkedList}   Linked list
  */
-SinglyLinkedList.prototype.insert = function (payload, value) {
+DoublyLinkedList.prototype.insert = function (payload, value) {
     function findNode(obj) {
         while (obj !== null) {
             if (obj.data === payload) return obj;
@@ -132,7 +137,7 @@ SinglyLinkedList.prototype.insert = function (payload, value) {
     return this;
 };
 
-SinglyLinkedList.prototype.delete = function (payload) {
+DoublyLinkedList.prototype.delete = function (payload) {
     function findNodeBefore(obj) {
         while (obj.next !== null) {
             if (obj.next.data === payload) return obj;
@@ -183,7 +188,7 @@ SinglyLinkedList.prototype.delete = function (payload) {
  * @param {function}  callback  Function to invoke on every traversal
  * @returns  {array<*>}  An array of node's payloads.
  */
-SinglyLinkedList.prototype.traverse = function (callback) {
+DoublyLinkedList.prototype.traverse = function (callback) {
     var current = this.head,
         arr = [];
     while (current !== null) {
@@ -198,7 +203,7 @@ SinglyLinkedList.prototype.traverse = function (callback) {
  * @param {*} value  Value to search linked list for.
  * @returns {boolean} Returns true if value found, false otherwise.
  */
-SinglyLinkedList.prototype.has = function (value) {
+DoublyLinkedList.prototype.has = function (value) {
     var current = this.head;
     while (current !== null) {
         if (current.data === value) return true;
@@ -211,36 +216,21 @@ SinglyLinkedList.prototype.has = function (value) {
 
 
 // node export
-if (typeof module !== "undefined") module.exports = SinglyLinkedList;
+if (typeof module !== "undefined") module.exports = DoublyLinkedList;
 
 
 
 // USAGE
-var sll = new SinglyLinkedList();
-sll.append(55);
-sll.prepend(44);
-sll.prepend(33);
+var dll = new DoublyLinkedList();
+dll.append(55);
+dll.append(44);
+// sll.prepend(33);
 // sll.has(33);
-// sll.append(77);
-sll.prepend(22);
-// sll.append(99);
+dll.append(77);
+// sll.prepend(22);
+dll.append(99);
 // sll.prepend(11);
 // sll.insert(55, 66);
-sll.insert(77, 88);
-sll.traverse();
-sll.traverse(x => x + 2);
-
-
-
-var sll2 = new SinglyLinkedList();
-console.log('sll2.append(55): ', sll2.append(55));
-console.log('sll2.prepend(44): ', sll2.prepend(44));
-console.log('sll2.prepend(33): ', sll2.prepend(33));
-console.log('sll2.has(33): ', sll2.has(33));
-console.log('sll2.append(77): ', sll2.append(77));
-console.log('sll2.prepend(22): ', sll2.prepend(22));
-console.log('sll2.append(99): ', sll2.append(99));
-console.log('sll2.prepend(11): ', sll2.prepend(11));
-console.log('sll2.insert(55, 66): ', sll2.insert(55, 66));
-console.log('sll2.insert(77, 88): ', sll2.insert(77, 88));
-console.log('sll2.traverse(): ', sll2.traverse());
+// sll.insert(77, 88);
+// sll.traverse();
+// sll.traverse(x => x + 2);
