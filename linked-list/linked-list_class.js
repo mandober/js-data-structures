@@ -36,7 +36,7 @@ class Node {
 
 class NodeDLL extends Node {
     constructor(value) {
-        super(value);
+        let node = super(value);
         node.prev = null;
         return node;
     }
@@ -65,6 +65,26 @@ class LinkedList {
             current = current.next;
         }
         return false;
+    }
+
+    [Symbol.iterator]() {
+        var arr = this.traverse(),
+            index = 0;
+        return {
+            next() {
+                if (index < arr.length) {
+                    return {
+                        value: arr[index++],
+                        done: false
+                    };
+                } else {
+                    return {
+                        value: undefined,
+                        done: true
+                    };
+                }
+            }
+        };
     }
 
     _findLastNode(node) {
@@ -105,13 +125,22 @@ class SinglyLinkedList extends LinkedList {
 }
 
 class DoublyLinkedList extends LinkedList {
+    constructor() {
+        super();
+        this.tail = null;
+    }
+
     append(value) {
         if (this.head === null) {
-            this.head = new Node(value);
+            this.head = this.tail = new NodeDLL(value);
         } else {
-            let lastNode = this._findLastNode(this.head);
-            lastNode.next = new Node(value);
-            lastNode.next.prev = lastNode;
+            // let lastNode = this._findLastNode(this.head);
+            // lastNode.next = new NodeDLL(value);
+            // lastNode.next.prev = lastNode;
+            let newNode = new NodeDLL(value);
+            this.tail.next = newNode;
+            newNode.prev = this.tail;
+            this.tail = newNode;
         }
         this.count++;
         return this;
@@ -125,6 +154,10 @@ let a = new SinglyLinkedList();
 a.append(11);
 a.append(21);
 a.append(31);
+
+// for (let x of a) {
+//     console.log(x);
+// }
 
 let b = new DoublyLinkedList();
 b.append(29);
