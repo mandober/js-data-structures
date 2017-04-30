@@ -2,31 +2,31 @@
  * Data structure: LINKED LIST (LL)
  *
  * @version 0.0.2.170430
- * @description Linked Lists implemented in JS.
+ * @description Linked Lists implemented with classes.
  *
  * Methods: append, prepend, insert, traverse, has, delete
  *
  * Types: [circular] singly|doubly linked list
  *
- * List's properties:
+ * Link List's properties:
  * - links: singly | doubly
  * - circular: true | false
  *
- * Concrete linked list's properties:
+ * Properties of linked-list instances:
  * - head: points to the first node
- * - tail: points to the last node
+ * - tail: points to the last node (only for doubly LL)
  * - count: tracks nodes count
  *
  * Node's properties:
  * - data: node's payload
  * - next: references the following node (the last node points to null)
- * - prev: references the previous node
+ * - prev: references the previous node (only for doubly LL's nodes)
  */
 'use strict';
 
 class Node {
     constructor(value) {
-        // remove node from the prototype chain
+        // remove node from the prototype chain (less clutter)
         let node = Object.create(null);
         node.data = value;
         node.next = null;
@@ -134,9 +134,6 @@ class DoublyLinkedList extends LinkedList {
         if (this.head === null) {
             this.head = this.tail = new NodeDLL(value);
         } else {
-            // let lastNode = this._findLastNode(this.head);
-            // lastNode.next = new NodeDLL(value);
-            // lastNode.next.prev = lastNode;
             let newNode = new NodeDLL(value);
             this.tail.next = newNode;
             newNode.prev = this.tail;
