@@ -1,8 +1,24 @@
 # Linked List
 
-[Linked list](https://en.wikipedia.org/wiki/Linked_list "wikipedia"), or more precisely singly-linked list is a linear collection of data elements, called nodes, where each node is composed of data (payload) and a reference (link) to the next node in the sequence.
+Linked list is a collection of data elements, called nodes, where each node contains data and a reference to the adjacent nodes in the collection.
 
-The first node, referred as "head", provides access to the whole list; the "tail" refers to either the rest of nodes, or only to the final node. The final node in the list points to `null`.
+## Characteristics
+
+Unlike arrays, nodes need not be contiguous in the memory, they can be anywhere in the heap. Random access to the list is not possible - the list must be searched from the starting node until the end (or until the value is found).
+
+## Methods
+Appending new node is achieved by traversing the list, finding the last node and inserting a new one.
+
+
+## Types of linked lists
+
+
+
+
+
+## Lists
+
+The first node, referred as "head", provides access to the whole list; the "tail" refers to either the rest of nodes, or, more commonly, only to the final node. The final node in the list is points to `null`.
 
 > Linked list is found in JavaScript: prototype chain is a form of linked list, where an object (node) has properties (data) and the `__proto__` (next) property that points (links) to the next object. The final node in the list, `Object.prototype`, points to null.
 
@@ -20,11 +36,6 @@ The first node, referred as "head", provides access to the whole list; the "tail
 
 Constructor function `LinkedList` will construct first node; construction of other nodes will be handled by a helper function. This way, not only initial, but and all other nodes will be prototype linked to `LinkedList.prototype`.
 
-
-![Linked list diagram 1][ll1]     
-Diagram 1: thick red lines are [[Prototype]] links.
-
-
 ```js
 function LinkedList () {
     node.data = undefined;
@@ -40,12 +51,6 @@ function newNode(value) {
 ```
 
 Having all nodes to [[Prototype]] link to `LinkedList.prototype` feels unnecessary because tail nodes don't have any business accessing the methods on the prototype object, so it seems reasonable to remove tailing nodes from the prototype chain during their creation.
-
-
-![Linked list diagram 2][ll2]    
-Diagram 1: All nodes, except the first that represents the list itself, are removed from the [[Prototype]] chain.
-
-
 
 ```js
 var LinkedList = function () {
@@ -105,3 +110,8 @@ Looks ok. Before going further, there is a question of "sentinel" nodes. Linked 
 [ll1]: https://github.com/mandober/js-data-structures/blob/master/linked-list/linked-list-1.png?raw=true
 [ll2]: https://github.com/mandober/js-data-structures/blob/master/linked-list/linked-list-2.png?raw=true
 [ll3]: https://github.com/mandober/js-data-structures/blob/master/linked-list/linked-list-3.jpg?raw=true
+
+
+## References:
+[Linked list](https://en.wikipedia.org/wiki/Linked_list "wikipedia")
+

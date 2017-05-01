@@ -4,13 +4,22 @@
  * @version 0.0.2.170430
  * @description Linked Lists implemented with classes.
  *
+ * Classes:
+ * - Node
+ *   - NodeDLL
+ * - LinkedList
+ *   - SinglyLinkedList
+ *   - DoublyLinkedList
+ *   - SinglyLinkedCircularList
+ *   - DoublyLinkedCircularList
+ *
+ * List types: singly|doubly linked linear|circular list
+ *
  * Methods: append, prepend, insert, traverse, has, delete
  *
- * Types: [circular] singly|doubly linked list
- *
- * Link List's properties:
- * - links: singly | doubly
- * - circular: true | false
+ * List's properties:
+ * - singly | doubly
+ * - linear | circular
  *
  * Properties of linked-list instances:
  * - head: points to the first node
@@ -87,8 +96,8 @@ class LinkedList {
         };
     }
 
-    _findLastNode(node) {
-        return (node.next === null) ? node : this._findLastNode(node.next);
+    _findLastNode(node, lastLink) {
+        return (node.next === lastLink) ? node : this._findLastNode(node.next);
     }
 
     _findNodeByPayload(node, payload) {
@@ -116,7 +125,7 @@ class SinglyLinkedList extends LinkedList {
         if (this.head === null) { // if list is empty
             this.head = new Node(value);
         } else {
-            let lastNode = this._findLastNode(this.head);
+            let lastNode = this._findLastNode(this.head, null);
             lastNode.next = new Node(value);
         }
         this.count++;
@@ -143,6 +152,50 @@ class DoublyLinkedList extends LinkedList {
         return this;
     }
 }
+
+class SinglyLinkedCircularList extends SinglyLinkedList {
+    append(value) {
+        // if list is empty, newly created node is the first node
+        if (this.head === null) {
+            let newNode = Node(value);
+            this.head = newNode;
+            newNode.next = this.head;
+            // otherwise, find last node, the one whose
+            // `next` points to the first (`this.head`)
+        } else {
+            let newNode = Node(value),
+                headNode = this.head,
+                lastNode = this._findLastNode(headNode, headNode);
+            lastNode.next = newNode;
+            newNode.next = headNode;
+        }
+        // increase node count, return the list
+        this.count++;
+    }
+
+} // SLCL
+
+class DoublyLinkedCircularList extends DoublyLinkedList {
+    constructor() {
+        super();
+        this.tail = null;
+    }
+
+    append(value) {
+        if (this.head === null) {
+            this.head = this.tail = new NodeDLL(value);
+        } else {
+            let newNode = new NodeDLL(value);
+            this.tail.next = newNode;
+            newNode.prev = this.tail;
+            this.tail = newNode;
+        }
+        this.count++;
+        return this;
+    }
+
+} // DLCL
+
 
 
 

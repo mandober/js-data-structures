@@ -38,6 +38,7 @@
 var DoublyLinkedList = function () {
     this.count = 0;
     this.head = null;
+    this.tail = null;
 };
 
 /**
@@ -64,18 +65,22 @@ var Node = function (value) {
 DoublyLinkedList.prototype.append = function (value) {
     // if list is empty, newly created node is the first node
     if (this.head === null) {
-        this.head = Node(value);
+        this.head = this.tail = Node(value);
     // otherwise, find last node
     } else {
-        let lastNode = function findLastNode(obj) {
-            return (obj.next === null) ? obj : findLastNode(obj.next);
-        }(this.head);
-        lastNode.next = Node(value);
-        lastNode.next.prev = lastNode;
+        let newNode = Node(value);
+        this.tail.next = newNode;
+        newNode.prev = this.tail;
+        this.tail = newNode;
     }
     this.count++;
     return this;
 };
+
+
+
+
+
 
 /**
  * prepend()

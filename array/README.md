@@ -41,7 +41,7 @@ arr["x"] // 333
 ### Temporary edge cases
 
 In Firefox 53.0 and Chrome Canary 60.0.3085.0 (Node 7.9.0 behaves the same as Chrome) there are inconsistences with regards to deprecated octal notation (for example, `08`, instead of the new form `0o8`).
-
+ 
 Firefox:
 ```js
 let arr = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22];
@@ -76,3 +76,16 @@ arr[019]; // 19
 arr[020]; // 16
 // ...
 ```
+
+### Sparse arrays
+
+Deleting an element with `delete` operator leaves a whole (empty slot) in an array. Removing an element with `splice` method removes (and returns) element(s) without leaving wholes in the array. `splice` mutates the original array; it can be used to add or remove elements.
+```js
+let arr = [0,1,2,3];
+delete arr[1]; // true
+arr; // Array [ 0, <1 empty slot>, 2, 3 ]
+arr.splice(1,1);
+arr; // Array [ 0, 2, 3 ]
+arr.splice(1,0,1); // Array [ 0, 1, 2, 3 ]
+```
+Other common mutator methods are pop, push, shift, unshift, sort, reverse. Accessor methods like slice, concat, map, filter don't change original array, they return a new one.
