@@ -77,27 +77,20 @@ class LinkedList {
     }
 
     [Symbol.iterator]() {
-        var arr = this.traverse(),
-            index = 0;
+        let k = this.traverse(),
+            i = 0;
         return {
-            next() {
-                if (index < arr.length) {
-                    return {
-                        value: arr[index++],
-                        done: false
-                    };
-                } else {
-                    return {
-                        value: undefined,
-                        done: true
-                    };
-                }
+            next: function () {
+                return {
+                    value: k[i],
+                    done: i++ >= k.length
+                };
             }
-        };
+        }
     }
 
     _findLastNode(node, lastLink) {
-        return (node.next === lastLink) ? node : this._findLastNode(node.next);
+        return (node.next === lastLink) ? node : this._findLastNode(node.next, lastLink);
     }
 
     _findNodeByPayload(node, payload) {
@@ -157,13 +150,13 @@ class SinglyLinkedCircularList extends SinglyLinkedList {
     append(value) {
         // if list is empty, newly created node is the first node
         if (this.head === null) {
-            let newNode = Node(value);
+            let newNode = new Node(value);
             this.head = newNode;
             newNode.next = this.head;
             // otherwise, find last node, the one whose
             // `next` points to the first (`this.head`)
         } else {
-            let newNode = Node(value),
+            let newNode = new Node(value),
                 headNode = this.head,
                 lastNode = this._findLastNode(headNode, headNode);
             lastNode.next = newNode;
@@ -183,12 +176,19 @@ class DoublyLinkedCircularList extends DoublyLinkedList {
 
     append(value) {
         if (this.head === null) {
-            this.head = this.tail = new NodeDLL(value);
-        } else {
             let newNode = new NodeDLL(value);
-            this.tail.next = newNode;
-            newNode.prev = this.tail;
-            this.tail = newNode;
+            this.tail = this.head = newNode;
+            newNode.next = this.head;
+            //newNode.prev = this.head; // not needed
+        } else {
+            let newNode = new NodeDLL(value),
+                headNode = this.head,
+                tailNode = this.tail; // this.head.prev = this.tail
+
+            tailNode.next = headNode.prev = newNode; // tail.next => new, head.prev => new
+            newNode.prev = tailNode; // new.prev => ex tail node
+            //this.tail = newNode;
+            newNode.next = headNode; // new.next => head node
         }
         this.count++;
         return this;
@@ -200,16 +200,47 @@ class DoublyLinkedCircularList extends DoublyLinkedList {
 
 
 // USAGE
+
+
+// SLL
 let a = new SinglyLinkedList();
 a.append(11);
 a.append(21);
 a.append(31);
+// iterate
+var it = a[Symbol.iterator]();
+it.next();
+it.next();
+it.next();
+// for...of
+for (let key of a) console.log(key);
 
-// for (let x of a) {
-//     console.log(x);
-// }
 
+// DLL
 let b = new DoublyLinkedList();
 b.append(29);
 b.append(39);
 b.append(49);
+// iterate
+var it = a[Symbol.iterator]();
+it.next();
+it.next();
+it.next();
+// for...of
+for (let key of a) console.log(key);
+
+
+// SLCL
+let c = new SinglyLinkedCircularList();
+c.append(5);
+c.append(10);
+c.append(15);
+c.append(20);
+
+
+// SLDL
+let d = new DoublyLinkedCircularList();
+d.append(25);
+d.append(30);
+d.append(35);
+// d.append(40);
